@@ -7,10 +7,10 @@
           <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
               <SidebarMenuButton as-child>
-                <a :href="item.url">
+                <NuxtLink :to="item.url">
                   <Icon :name="item.icon" />
                   <span>{{ item.title }}</span>
-                </a>
+                </NuxtLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -34,27 +34,17 @@
 
   const items = [
     {
-      title: "Home",
-      url: "#",
+      title: "Dashboard",
+      url: "/main/dashboard",
       icon: 'lucide:house',
     },
     {
-      title: "Inbox",
-      url: "#",
-      icon: 'lucide:inbox',
+      title: "Usuarios",
+      url: "/main/users",
+      icon: 'lucide:users',
     },
     {
-      title: "Calendar",
-      url: "#",
-      icon: 'lucide:calendar',
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: 'lucide:search',
-    },
-    {
-      title: "Settings",
+      title: "Ajustes",
       url: "#",
       icon: 'lucide:settings',
     },

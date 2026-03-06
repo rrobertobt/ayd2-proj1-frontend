@@ -11,8 +11,8 @@
               <Icon name="lucide:user-round" />
               <span class="flex flex-col">
                 <span class="text-sm font-medium">
-                  {{ session?.employee.first_name }}
-                  {{ session?.employee.last_name }}
+                  {{ session?.employee.firstName }}
+                  {{ session?.employee.lastName }}
                 </span>
                 <span class="uppercase font-light text-xs text-muted-foreground">{{
                   session?.role.name
@@ -24,19 +24,15 @@
               <DropdownMenuGroup>
                 <DropdownMenuItem>
                   Profile
-                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   Billing
-                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   Settings
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   Keyboard shortcuts
-                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />

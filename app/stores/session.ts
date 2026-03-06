@@ -3,32 +3,31 @@ import { toast } from "vue-sonner";
 import { $api } from "~/utils/plain-fetch";
 
 export interface LoginResponse {
-    username: string;
-    email:    string;
-    active:   boolean;
-    token:    string;
-    role:     Role;
-    employee: Employee;
+  username: string;
+  email: string;
+  active: boolean;
+  token: string;
+  role: Role;
+  employee: Employee;
 }
 
 export interface Employee {
-    id:          number;
-    createdAt:   Date;
-    updatedAt:   Date;
-    first_name:  string;
-    last_name:   string;
-    hourly_rate: number;
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  firstName: string;
+  lastName: string;
+  hourly_rate: number;
 }
 
 export interface Role {
-    id:          number;
-    createdAt:   Date;
-    updatedAt:   Date;
-    code:        string;
-    name:        string;
-    description: string;
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  code: string;
+  name: string;
+  description: string;
 }
-
 
 export const useSessionStore = defineStore("session", () => {
   const session = ref<LoginResponse>();
@@ -41,7 +40,7 @@ export const useSessionStore = defineStore("session", () => {
     try {
       const { setToken } = useNuxtApp().$authCookie;
       const requestBody = { username, password };
-    const response = await $api<LoginResponse>("/login", {
+      const response = await $api<LoginResponse>("/login", {
         method: "POST",
         body: requestBody,
         onResponse: ({ response }) => {
@@ -160,12 +159,7 @@ export const useSessionStore = defineStore("session", () => {
   });
 
   const logout = () => {
-    // todo: call to logout endpoint
-    if (role.value === "PARTICIPANT") {
-      navigateTo("/login");
-    } else {
-      navigateTo("/admin/login");
-    }
+    navigateTo("/login");
     session.value = null;
     const { removeToken } = useNuxtApp().$authCookie;
     removeToken();
