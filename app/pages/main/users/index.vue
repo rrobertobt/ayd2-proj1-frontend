@@ -44,15 +44,19 @@
   import { Icon, NuxtLink } from "#components";
   import { Button } from "~/components/ui/button";
   import Badge from "~/components/ui/badge/Badge.vue";
-  import UserFilters from "~/components/forms/UserFilters.vue";
+  import UserFilters from "~/components/users/forms/UserFilters.vue";
+
+  import UserActionsTable from "~/components/users/table/UserActionsTable.vue";
   const route = useRoute();
-  const { data, status } = useAsyncData("admin-users", () =>
-    usersApi.list({
-      page: route.query.page ? Number(route.query.page) : 0,
-      // All filters from the query
-      ...route.query
-    }),
-    { watch: [() => route.query] }
+  const { data, status, refresh } = useAsyncData(
+    "admin-users",
+    () =>
+      usersApi.list({
+        page: route.query.page ? Number(route.query.page) : 0,
+        // All filters from the query
+        ...route.query,
+      }),
+    { watch: [() => route.query] },
   );
 
   const paginationOptions = computed({
@@ -71,6 +75,7 @@
     },
   });
 
+  
   const columns: ColumnDef<UserItemResponse>[] = [
     {
       accessorFn: (row) => {
@@ -88,6 +93,23 @@
       ),
       cell: ({ row }) => (
         <div class="text-base">{row.getValue("fullName")}</div>
+      ),
+    },
+    {
+      accessorKey: "username",
+      meta: {
+        displayName: "Nombre de Usuario",
+      },
+      header: () => (
+        <div class="text-center font-semibold">
+          <Icon name="lucide:at-sign" class="inline mr-1 " />
+          Nombre de Usuario
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div class="text-sm font-mono p-1 bg-muted rounded">
+          {row.getValue("username")}
+        </div>
       ),
     },
     {
@@ -146,27 +168,18 @@
           Tarifa por Hora
         </div>
       ),
-      cell: ({ row }) => <div class="text-sm font-mono">${row.original.employee.hourlyRate}</div>,
+      cell: ({ row }) => (
+        <div class="text-sm font-mono">${row.original.employee.hourlyRate}</div>
+      ),
     },
     {
       id: "actions",
-      header: () => (
-        <div class="text-center font-semibold">
-          <Icon name="lucide:settings" class="inline mr-1 " />
-          Acciones
-        </div>
-      ),
       cell: ({ row }) => (
-        <div class="flex justify-center gap-2">
-          <Button variant="outline" size="sm" as-child>
-            <NuxtLink to={`/main/users/${row.original.id}`}>
-              <Icon name="lucide:eye" class="inline mr-1 " />
-              Ver
-            </NuxtLink>
-          </Button>
+        <div class="relative">
+          <UserActionsTable userId={row.original.id} onAction-complete={refresh} active={row.original.active} />
         </div>
       ),
-    }
+    },
   ];
 
   definePageMeta({

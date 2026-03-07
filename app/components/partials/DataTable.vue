@@ -255,7 +255,7 @@
               class="bg-accent"
             >
               <div
-                class="flex items-center gap-2 transition"
+                class="flex items-center justify-center gap-2 transition"
                 :class="{
                   'select-none hover:text-foreground':
                     !header.column.getIsSorted(),

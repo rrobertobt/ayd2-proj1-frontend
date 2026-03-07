@@ -72,6 +72,29 @@ export const useSessionStore = defineStore("session", () => {
     }
   };
 
+  const onboarding = async (
+    {token, password, confirmPassword}: { token: string; password: string; confirmPassword: string }
+  ) => {
+    loading.value = true;
+    try {
+      const response = await $api("/users/onboarding/set-password", {
+        method: "POST",
+        body: { token, password, confirmPassword },
+      });
+      toast.success("Cuenta activada correctamente. Ya puedes iniciar sesión con tu nueva contraseña.");
+      navigateTo("/login");
+      return response;
+    } catch (error) {
+      console.log("Error al actualizar la contraseña:", error?.data);
+      toast.error(error.data?.message ?? error.name, {});
+      return {
+        error: error.data.message ?? error.name,
+      };
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const updatePassword = async (newPassword) => {
     loading.value = true;
     try {
@@ -94,7 +117,7 @@ export const useSessionStore = defineStore("session", () => {
       //   life: 3000
       // })
       return {
-        error: error.data.message,
+        error: error.data.message ?? error.name,
       };
     } finally {
       loading.value = false;
@@ -160,15 +183,10 @@ export const useSessionStore = defineStore("session", () => {
 
   const logout = () => {
     navigateTo("/login");
-    session.value = null;
+    session.value = undefined;
     const { removeToken } = useNuxtApp().$authCookie;
     removeToken();
-    // toast.add({
-    //   severity: 'success',
-    //   summary: 'Sesión',
-    //   detail: 'Sesión cerrada correctamente',
-    //   life: 3000
-    // })
+    toast.success("Sesión cerrada correctamente");
   };
 
   return {
@@ -178,6 +196,7 @@ export const useSessionStore = defineStore("session", () => {
     logout,
     recoverSession,
     updatePassword,
+    onboarding,
     fetchUserData,
     role,
     roleDisplay,

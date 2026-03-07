@@ -11,6 +11,7 @@
     size?: ButtonVariants["size"];
     class?: HTMLAttributes["class"];
     icon?: string;
+    disabled?: boolean;
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -24,6 +25,7 @@
     :data-variant="variant"
     :data-size="size"
     :as="as"
+    :disabled="disabled"
     :as-child="asChild"
     :class="cn(buttonVariants({ variant, size }), props.class)"
   >

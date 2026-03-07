@@ -55,5 +55,20 @@ export const usersApi = {
       method: "POST",
       body: userData,
     });
-  }
+  },
+  resendOnboardingEmail: (userId: number) => {
+    return $api(`/users/${userId}/onboarding/resend`, {
+      method: "POST",
+    });
+  },
+  toggleUserStatus: (userId: number) => {
+    return $api(`/users/${userId}/toggle-status`, {
+      method: "PATCH",
+    });
+  },
+  getById: (userId: number) => {
+    return $api<UserItemResponse>(`/users/${userId}`, {
+      method: "GET",
+    });
+  },
 }

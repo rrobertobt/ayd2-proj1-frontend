@@ -136,16 +136,16 @@
   import { toTypedSchema } from "@vee-validate/zod";
   import { useForm, Field as VeeField } from "vee-validate";
   import { rolesApi } from "~/lib/api/roles";
-  import { Input } from "../ui/input";
+  import { Input } from "~/components/ui/input";
   import {
     Field,
     FieldGroup,
     FieldLabel,
     FieldError,
     FieldDescription,
-  } from "../ui/field";
-  import { Button } from "../ui/button";
-  import { NativeSelect, NativeSelectOption } from "../ui/native-select";
+  } from "~/components/ui/field";
+  import { Button } from "~/components/ui/button";
+  import { NativeSelect, NativeSelectOption } from "~/components/ui/native-select";
 
   const props = defineProps<{
     loading?: boolean;
