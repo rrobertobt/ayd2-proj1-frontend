@@ -4,13 +4,16 @@
     <div class="space-y-2">
       <h2 class="uppercase text-xs tracking-widest font-light">Acciones:</h2>
       <Button as-child>
-        <NuxtLink to="/main/users/create">
+        <NuxtLink to="/main/users/new">
           <Icon name="lucide:plus" class="inline mr-1" />
           Crear/Registrar
         </NuxtLink>
       </Button>
     </div>
-    <div class="max-w-6xl pt-6 mx-auto rounded-lg relative" v-if="data">
+    <div class="pt-4 rounded-lg">
+      <UserFilters :loading="status === 'pending'" />
+    </div>
+    <div class="pt-6 rounded-lg relative" v-if="data">
       <DataTable
         :columns="columns"
         :data="data.content"
@@ -41,19 +44,15 @@
   import { Icon, NuxtLink } from "#components";
   import { Button } from "~/components/ui/button";
   import Badge from "~/components/ui/badge/Badge.vue";
+  import UserFilters from "~/components/forms/UserFilters.vue";
   const route = useRoute();
-  const { data } = useAsyncData("admin-users", () =>
+  const { data, status } = useAsyncData("admin-users", () =>
     usersApi.list({
       page: route.query.page ? Number(route.query.page) : 0,
       // All filters from the query
-      roleId: route.query.role_id ? Number(route.query.role_id) : undefined,
-      active: route.query.active ? route.query.active === "true" : undefined,
-      search: route.query.search ? String(route.query.search) : undefined,
-      firstName: route.query.firstName
-        ? String(route.query.firstName)
-        : undefined,
-      lastName: route.query.lastName ? String(route.query.lastName) : undefined,
+      ...route.query
     }),
+    { watch: [() => route.query] }
   );
 
   const paginationOptions = computed({

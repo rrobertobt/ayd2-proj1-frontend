@@ -31,11 +31,29 @@ export interface FilterUsersOptions extends PaginationApiOptions {
   active?: boolean;
 }
 
+export interface CreateUserRequest {
+  username: string;
+  email: string;
+  password?: string;
+  roleId: number;
+  employee: {
+    firstName: string;
+    lastName: string;
+    hourlyRate: number;
+  }
+}
+
 export const usersApi = {
   list: (queryOptions?: FilterUsersOptions) => {
     return $api<PagedResponse<UserItemResponse>>("/users", {
       method: "GET",
       query: queryOptions,
+    });
+  },
+  create: (userData: CreateUserRequest) => {
+    return $api<UserItemResponse>("/users", {
+      method: "POST",
+      body: userData,
     });
   }
 }
