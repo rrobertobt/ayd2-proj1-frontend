@@ -3,11 +3,9 @@
     <h1 class="text-2xl font-bold mb-4 uppercase">Proyectos</h1>
     <div class="space-y-2">
       <h2 class="uppercase text-xs tracking-widest font-light">Acciones:</h2>
-      <Button as-child>
-        <NuxtLink to="/main/projects/new">
-          <Icon name="lucide:plus" class="inline mr-1" />
-          Crear
-        </NuxtLink>
+      <Button @click="openCreateDialog">
+        <Icon name="lucide:plus" class="inline mr-1" />
+        Crear
       </Button>
     </div>
     <div class="pt-4 rounded-lg">
@@ -65,6 +63,12 @@
               <Button icon="lucide:arrow-right" variant="outline" size="sm">
                 Ver detalles
               </Button>
+              <Button icon="lucide:pencil" variant="outline" size="sm" @click="openEditDialog(item)">
+                Editar
+              </Button>
+              <Button icon="lucide:user-check" variant="outline" size="sm" @click="openAssignAdminDialog(item)">
+                Asignar admin
+              </Button>
               <Button icon="lucide:power-off" variant="outline" size="sm" @click="toggleProjectStatus(item.id)">
                 {{ item.status === "ACTIVE" ? "Desactivar" : "Activar" }}
               </Button>
@@ -73,6 +77,17 @@
         </template>
       </ItemsIterator>
     </div>
+
+    <ProjectFormDialog
+      v-model:open="dialogOpen"
+      :project="selectedProject"
+      @success="refresh"
+    />
+    <AssignAdminDialog
+      v-model:open="assignAdminDialogOpen"
+      :project="selectedProject"
+      @success="refresh"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -88,9 +103,12 @@
     CardTitle,
   } from "@/components/ui/card";
   import { projectsApi } from "~/lib/api/projects";
+  import type { ProjectItemResponse } from "~/lib/api/projects";
   import Badge from "~/components/ui/badge/Badge.vue";
   import ProjectFilters from "~/components/projects/ProjectFilters.vue";
-import { projectsMutations } from "~/lib/mutations/projects";
+  import ProjectFormDialog from "~/components/projects/ProjectFormDialog.vue";
+  import AssignAdminDialog from "~/components/projects/AssignAdminDialog.vue";
+  import { projectsMutations } from "~/lib/mutations/projects";
 
   const route = useRoute();
 
@@ -109,6 +127,26 @@ import { projectsMutations } from "~/lib/mutations/projects";
       refresh();
     },
   });
+
+  const dialogOpen = ref(false);
+  const selectedProject = ref<ProjectItemResponse | undefined>(undefined);
+
+  function openCreateDialog() {
+    selectedProject.value = undefined;
+    dialogOpen.value = true;
+  }
+
+  function openEditDialog(project: ProjectItemResponse) {
+    selectedProject.value = project;
+    dialogOpen.value = true;
+  }
+
+  const assignAdminDialogOpen = ref(false);
+
+  function openAssignAdminDialog(project: ProjectItemResponse) {
+    selectedProject.value = project;
+    assignAdminDialogOpen.value = true;
+  }
 
   const paginationOptions = computed({
     get: () => ({

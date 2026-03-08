@@ -22,6 +22,11 @@ export interface CreateProjectRequest {
     description: string;
 }
 
+export interface UpdateProjectRequest {
+    name?:        string;
+    description?: string;
+}
+
 export interface FilterProjectsOptions extends PaginationApiOptions {
     search?:  string;
     status?:  string;
@@ -54,6 +59,12 @@ export const projectsApi = {
     return $api<ProjectItemResponse>(`/projects/${projectId}`, {
       method: "PATCH",
       body: projectData,
+    });
+  },
+  assignAdmin: (projectId: number, userId: number) => {
+    return $api(`/projects/${projectId}/admins`, {
+      method: "POST",
+      body: { userId },
     });
   },
 }

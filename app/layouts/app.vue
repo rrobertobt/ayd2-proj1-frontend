@@ -25,10 +25,7 @@
             <DropdownMenuContent class="w-56" align="start">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuGroup>
-                <DropdownMenuItem> Profile </DropdownMenuItem>
-                <DropdownMenuItem> Billing </DropdownMenuItem>
-                <DropdownMenuItem> Settings </DropdownMenuItem>
-                <DropdownMenuItem> Keyboard shortcuts </DropdownMenuItem>
+                <DropdownMenuItem> Perfil </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>

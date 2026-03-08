@@ -27,8 +27,10 @@ export interface FilterUsersOptions extends PaginationApiOptions {
   search?: string;
   firstName?: string;
   lastName?: string;
+  fullName?: string;
   email?: string;
   roleId?: number;
+  roleCode?: string;
   active?: boolean;
 }
 
