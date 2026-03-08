@@ -39,6 +39,7 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@iconify-json/lucide": "^1.2.96",
     "@tailwindcss/vite": "^4.2.1",
     "@types/node": "^25.3.5",
     "@vitest/coverage-v8": "^4.0.18",

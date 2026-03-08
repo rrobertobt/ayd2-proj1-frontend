@@ -49,6 +49,11 @@
       icon: 'lucide:folder',
     },
     {
+      title: "Tipos de caso",
+      url: "/main/case-types",
+      icon: 'lucide:tag',
+    },
+    {
       title: "Ajustes",
       url: "#",
       icon: 'lucide:settings',
