@@ -1,12 +1,13 @@
 import type { PagedResponse, PaginationApiOptions } from "./base";
 
 export interface UserItemResponse {
-    id:       number;
-    username: string;
-    email:    string;
-    active:   boolean;
-    role:     Role;
-    employee: Employee;
+    id:                  number;
+    username:            string;
+    email:               string;
+    active:              boolean;
+    onboardingCompleted: boolean;
+    role:                Role;
+    employee:            Employee;
 }
 
 export interface Employee {
@@ -43,6 +44,16 @@ export interface CreateUserRequest {
   }
 }
 
+export interface UpdateUserRequest {
+  username: string;
+  email: string;
+  employee: {
+    firstName: string;
+    lastName: string;
+    hourlyRate: number;
+  }
+}
+
 export const usersApi = {
   list: (queryOptions?: FilterUsersOptions) => {
     return $api<PagedResponse<UserItemResponse>>("/users", {
@@ -69,6 +80,12 @@ export const usersApi = {
   getById: (userId: number) => {
     return $api<UserItemResponse>(`/users/${userId}`, {
       method: "GET",
+    });
+  },
+  update: (userId: number, userData: UpdateUserRequest) => {
+    return $api<UserItemResponse>(`/users/${userId}`, {
+      method: "PATCH",
+      body: userData,
     });
   },
 }

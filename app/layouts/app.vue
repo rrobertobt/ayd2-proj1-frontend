@@ -41,7 +41,7 @@
           </DropdownMenu>
         </section>
       </div>
-      <div class="container mx-auto">
+      <div class="container mx-auto pt-1">
         <NuxtPage />
       </div>
     </main>

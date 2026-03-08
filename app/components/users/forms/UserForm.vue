@@ -1,11 +1,12 @@
 <template>
   <form @submit="onSubmit" id="userForm" class="py-2">
     <fieldset class="grid grid-cols-1 md:grid-cols-2 gap-2" :disabled="props.loading">
-      <VeeField v-slot="{ field, errors }" name="username">
+      <VeeField v-slot="{ field, errors, value }" name="username">
         <Field :data-invalid="!!errors.length">
           <FieldLabel for="username"> Nombre de usuario </FieldLabel>
           <Input
             id="username"
+            :default-value="value"
             v-bind="field"
             :aria-invalid="!!errors.length"
             placeholder="shadcn"
@@ -15,11 +16,12 @@
         </Field>
       </VeeField>
 
-      <VeeField v-slot="{ field, errors }" name="email">
+      <VeeField v-slot="{ field, errors, value }" name="email">
         <Field :data-invalid="!!errors.length">
           <FieldLabel for="email"> Correo electrónico </FieldLabel>
           <Input
             id="email"
+            :default-value="value"
             v-bind="field"
             type="email"
             :aria-invalid="!!errors.length"
@@ -30,7 +32,7 @@
         </Field>
       </VeeField>
 
-      <VeeField v-slot="{ field, errors }" name="password">
+      <VeeField v-slot="{ field, errors }" name="password" v-if="!props.hidePassword">
         <Field :data-invalid="!!errors.length">
           <FieldLabel for="password"> Contraseña </FieldLabel>
           <Input
@@ -50,12 +52,13 @@
         </Field>
       </VeeField>
 
-      <VeeField v-slot="{ field, errors }" name="employee.firstName">
+      <VeeField v-slot="{ field, errors, value }" name="employee.firstName">
         <Field :data-invalid="!!errors.length">
           <FieldLabel for="firstName"> Nombre </FieldLabel>
           <Input
             id="firstName"
             v-bind="field"
+            :default-value="value"
             :aria-invalid="!!errors.length"
             placeholder="Juan"
             autocomplete="given-name"
@@ -64,12 +67,13 @@
         </Field>
       </VeeField>
 
-      <VeeField v-slot="{ field, errors }" name="employee.lastName">
+      <VeeField v-slot="{ field, errors, value }" name="employee.lastName">
         <Field :data-invalid="!!errors.length">
           <FieldLabel for="lastName"> Apellido </FieldLabel>
           <Input
             id="lastName"
             v-bind="field"
+            :default-value="value"
             :aria-invalid="!!errors.length"
             placeholder="Pérez"
             autocomplete="family-name"
@@ -78,7 +82,7 @@
         </Field>
       </VeeField>
 
-      <VeeField v-slot="{ field, errors }" name="roleId">
+      <VeeField v-if="!props.hideRole" v-slot="{ field, errors }" name="roleId">
         <Field :data-invalid="!!errors.length">
           <FieldLabel for="roleId"> Rol </FieldLabel>
           <NativeSelect
@@ -101,12 +105,13 @@
         </Field>
       </VeeField>
 
-      <VeeField v-slot="{ field, errors }" name="employee.hourlyRate">
+      <VeeField v-slot="{ field, errors, value }" name="employee.hourlyRate">
         <Field :data-invalid="!!errors.length">
           <FieldLabel for="hourlyRate"> Tarifa por hora </FieldLabel>
           <Input
             id="hourlyRate"
             v-bind="field"
+            :default-value="value"
             type="number"
             min="0"
             max="10000"
@@ -149,6 +154,18 @@
 
   const props = defineProps<{
     loading?: boolean;
+    hideRole?: boolean;
+    hidePassword?: boolean;
+    initialValues?: {
+      username?: string;
+      email?: string;
+      roleId?: number;
+      employee?: {
+        firstName?: string;
+        lastName?: string;
+        hourlyRate?: number;
+      };
+    };
   }>();
 
   const { data: availableRoles } = useAsyncData(() => rolesApi.list(), {
@@ -159,7 +176,7 @@
     username: z.string().min(5).max(100),
     email: z.string().email().max(100),
     password: z.string().optional(),
-    roleId: z.number(),
+    roleId: props.hideRole ? z.number().optional() : z.number(),
     employee: z.object({
       firstName: z.string().min(2).max(100),
       lastName: z.string().min(2).max(100),
@@ -170,14 +187,14 @@
   const { handleSubmit } = useForm({
     validationSchema: toTypedSchema(formSchema),
     initialValues: {
-      username: "",
-      email: "",
+      username: props.initialValues?.username ?? "",
+      email: props.initialValues?.email ?? "",
       password: undefined,
-      roleId: undefined,
+      roleId: props.initialValues?.roleId ?? undefined,
       employee: {
-        firstName: "",
-        lastName: "",
-        hourlyRate: 0,
+        firstName: props.initialValues?.employee?.firstName ?? "",
+        lastName: props.initialValues?.employee?.lastName ?? "",
+        hourlyRate: props.initialValues?.employee?.hourlyRate ?? 0,
       },
     },
   });

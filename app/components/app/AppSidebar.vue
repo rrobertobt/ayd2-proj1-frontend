@@ -44,6 +44,11 @@
       icon: 'lucide:users',
     },
     {
+      title: "Proyectos",
+      url: "/main/projects",
+      icon: 'lucide:folder',
+    },
+    {
       title: "Ajustes",
       url: "#",
       icon: 'lucide:settings',
