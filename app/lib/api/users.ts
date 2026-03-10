@@ -96,4 +96,16 @@ export const usersApi = {
       body: userData,
     });
   },
+  changePassword: (data: ChangePasswordRequest) => {
+    return $api("/users/me/password", {
+      method: "PATCH",
+      body: data,
+    });
+  },
+}
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }

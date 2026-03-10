@@ -3,6 +3,12 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-bold uppercase tracking-tight">Mi Perfil</h1>
+      <Button as-child variant="outline">
+        <NuxtLink to="/main/my/change-password">
+          <Icon name="lucide:lock-keyhole" class="mr-1 h-4 w-4" />
+          Cambiar contraseña
+        </NuxtLink>
+      </Button>
     </div>
 
     <template v-if="session">
@@ -103,6 +109,7 @@
 </template>
 
 <script setup lang="ts">
+import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";

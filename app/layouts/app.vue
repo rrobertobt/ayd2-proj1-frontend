@@ -25,7 +25,9 @@
             <DropdownMenuContent class="w-56" align="start">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuGroup>
-                <DropdownMenuItem> Perfil </DropdownMenuItem>
+                <DropdownMenuItem as-child>
+                  <NuxtLink to="/main/my/profile"> Perfil </NuxtLink>
+                </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>

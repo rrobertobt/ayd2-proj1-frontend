@@ -1,5 +1,6 @@
 import { toast } from "vue-sonner";
 import { usersApi } from "../api/users";
+import type { ChangePasswordRequest } from "../api/users";
 import { fetchErrorHandler } from "../utils";
 
 export const usersMutations = {
@@ -38,4 +39,18 @@ export const usersMutations = {
         ...mutation,
       };
     },
+
+  useChangePassword: ({ onComplete }: { onComplete?: () => void } = {}) => {
+    const { mutate, ...mutation } = useMutation({
+      mutation: (data: ChangePasswordRequest) => usersApi.changePassword(data),
+      onSuccess: () => {
+        toast.success("Contraseña actualizada correctamente");
+        onComplete?.();
+      },
+      onError: (error) => {
+        fetchErrorHandler(error);
+      },
+    });
+    return { mutate, ...mutation };
+  },
 };
