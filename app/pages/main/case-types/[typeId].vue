@@ -114,7 +114,7 @@
             </Card>
             <template v-if="stage.stageOrder < caseType.stages.length">
               <div
-                class="w-0.5 h-10 rounded my-1 ml-14 bg-muted-foreground flex items-center justify-center"
+                class="w-0.5 h-10 rounded my-1 ml-14 bg-muted-foreground/50 flex items-center justify-center"
                 aria-hidden="true"
               ></div>
             </template>

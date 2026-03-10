@@ -63,6 +63,12 @@ export const usersApi = {
       query: queryOptions,
     });
   },
+  listDevelopers: ({ fullName }: { fullName?: string;  }) => {
+    return $api<UserItemResponse[]>("/users/developers", {
+      method: "GET",
+      query: { fullName },
+    });
+  },
   create: (userData: CreateUserRequest) => {
     return $api<UserItemResponse>("/users", {
       method: "POST",
