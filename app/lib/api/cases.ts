@@ -88,9 +88,16 @@ export const casesApi = {
       query: queryOptions,
     });
   },
-  listByProject: (projectId: number) => {
-    return $api<CaseSummaryItemResponse[]>(`/projects/${projectId}/cases`, {
+  listMy: (queryOptions?: FilterCasesOptions) => {
+    return $api<CaseSummaryItemResponse>('/cases/my-assigned', {
       method: 'GET',
+      // query: queryOptions,
+    });
+  },
+  listByProject: (projectId: number, queryOptions?: FilterCasesOptions) => {
+    return $api<PagedResponse<CaseSummaryItemResponse>>(`/projects/${projectId}/cases`, {
+      method: 'GET',
+      query: queryOptions,
     });
   },
   getById: (caseId: number) => {
