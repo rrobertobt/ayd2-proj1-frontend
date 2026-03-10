@@ -20,11 +20,13 @@ export interface Employee {
   hourly_rate: number;
 }
 
+export type RoleCode = "SYSTEM_ADMIN" | "PROJECT_ADMIN" | "DEVELOPER";
+
 export interface Role {
   id: number;
   createdAt: Date;
   updatedAt: Date;
-  code: string;
+  code: RoleCode;
   name: string;
   description: string;
 }
@@ -172,14 +174,13 @@ export const useSessionStore = defineStore("session", () => {
     return session.value?.role;
   });
 
-  const roleDisplay = computed(() => {
-    switch (role.value) {
-      case "admin":
-        return "Administrador";
-      case "employee":
-        return "Empleado";
+  const roleChecker = computed(()=>{
+    return {
+      isSystemAdmin: role.value?.code === "SYSTEM_ADMIN",
+      isProjectAdmin: role.value?.code === "PROJECT_ADMIN",
+      isDeveloper: role.value?.code === "DEVELOPER",
     }
-  });
+  })
 
   const logout = () => {
     navigateTo("/login");
@@ -199,6 +200,6 @@ export const useSessionStore = defineStore("session", () => {
     onboarding,
     fetchUserData,
     role,
-    roleDisplay,
+    roleChecker,
   };
 });
