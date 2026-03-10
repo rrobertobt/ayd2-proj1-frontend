@@ -3,7 +3,8 @@
     <!-- Back -->
     <div class="flex items-center gap-3 mb-1">
       <Button variant="ghost" size="sm" as-child>
-        <NuxtLink :to="`/main/projects/`">
+        <!-- <NuxtLink :to="`/main/projects/`"> -->
+        <NuxtLink :to="roleChecker.isProjectAdmin ? '/main/my/projects' : '/main/projects'">
           <Icon name="lucide:arrow-left" class="mr-1" />
           Volver a proyectos
         </NuxtLink>

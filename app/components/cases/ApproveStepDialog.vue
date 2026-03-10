@@ -152,8 +152,8 @@ const usersPending = ref(false);
 const fetchUsers = useDebounceFn(async (fullName: string) => {
   usersPending.value = true;
   try {
-    const result = await usersApi.list({ fullName, size: 20 });
-    users.value = result.content;
+    const result = await usersApi.listDevelopers({ fullName });
+    users.value = result;
   } finally {
     usersPending.value = false;
   }

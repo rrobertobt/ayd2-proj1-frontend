@@ -1,6 +1,6 @@
 import { toast } from "vue-sonner";
 import { casesApi } from "../api/cases";
-import type { CreateCaseRequest, UpdateDueDateRequest, CancelCaseRequest } from "../api/cases";
+import type { CreateCaseRequest, UpdateDueDateRequest, CancelCaseRequest, CreateWorklogRequest } from "../api/cases";
 import { fetchErrorHandler } from "../utils";
 
 export const casesMutations = {
@@ -98,6 +98,28 @@ export const casesMutations = {
       }) => casesApi.rejectStep(caseId, stepId, reason),
       onSuccess: () => {
         toast.success("Paso rechazado");
+        onComplete?.();
+      },
+      onError: (error) => {
+        fetchErrorHandler(error);
+      },
+    });
+    return { mutate, ...mutation };
+  },
+
+  useCreateWorklog: ({ onComplete }: { onComplete?: () => void }) => {
+    const { mutate, ...mutation } = useMutation({
+      mutation: ({
+        caseId,
+        stepId,
+        data,
+      }: {
+        caseId: number;
+        stepId: number;
+        data: CreateWorklogRequest;
+      }) => casesApi.createWorklog(caseId, stepId, data),
+      onSuccess: () => {
+        toast.success("Trabajo registrado exitosamente");
         onComplete?.();
       },
       onError: (error) => {

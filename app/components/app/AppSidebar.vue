@@ -108,9 +108,9 @@
           icon: "lucide:house",
         },
         {
-          title: "Mis proyectos",
-          url: "/main/my/projects",
-          icon: "lucide:folder-open",
+          title: "Mis Casos",
+          url: "/main/my/cases",
+          icon: "lucide:file-text",
         }
       ];
     }

@@ -73,6 +73,22 @@ export interface CancelCaseRequest {
   reason: string;
 }
 
+export interface WorklogItemResponse {
+  id: number;
+  caseStepId: number;
+  employeeId: number;
+  employeeName: string;
+  comment: string;
+  hoursSpent: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateWorklogRequest {
+  comment: string;
+  hoursSpent: number;
+}
+
 export interface FilterCasesOptions extends PaginationApiOptions {
   projectId?: number;
   caseTypeId?: number;
@@ -88,10 +104,9 @@ export const casesApi = {
       query: queryOptions,
     });
   },
-  listMy: (queryOptions?: FilterCasesOptions) => {
-    return $api<CaseSummaryItemResponse>('/cases/my-assigned', {
+  listMy: () => {
+    return $api<CaseSummaryItemResponse[]>('/cases/my-assigned', {
       method: 'GET',
-      // query: queryOptions,
     });
   },
   listByProject: (projectId: number, queryOptions?: FilterCasesOptions) => {
@@ -139,6 +154,17 @@ export const casesApi = {
     return $api<CaseStepItemResponse>(`/cases/${caseId}/steps/${stepId}/reject`, {
       method: 'PATCH',
       body: { reason },
+    });
+  },
+  listWorklogs: (caseId: number, stepId: number) => {
+    return $api<WorklogItemResponse[]>(`/cases/${caseId}/steps/${stepId}/worklogs`, {
+      method: 'GET',
+    });
+  },
+  createWorklog: (caseId: number, stepId: number, data: CreateWorklogRequest) => {
+    return $api<WorklogItemResponse>(`/cases/${caseId}/steps/${stepId}/worklogs`, {
+      method: 'POST',
+      body: data,
     });
   },
 };
