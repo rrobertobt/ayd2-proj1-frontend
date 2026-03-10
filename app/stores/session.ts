@@ -9,6 +9,7 @@ export interface LoginResponse {
   token: string;
   role: Role;
   employee: Employee;
+  onboardingCompleted: boolean;
 }
 
 export interface Employee {
@@ -174,6 +175,8 @@ export const useSessionStore = defineStore("session", () => {
     return session.value?.role;
   });
 
+  const isAuthenticated = computed(() => !!session.value);
+
   const roleChecker = computed(()=>{
     return {
       isSystemAdmin: role.value?.code === "SYSTEM_ADMIN",
@@ -200,6 +203,7 @@ export const useSessionStore = defineStore("session", () => {
     onboarding,
     fetchUserData,
     role,
+    isAuthenticated,
     roleChecker,
   };
 });
