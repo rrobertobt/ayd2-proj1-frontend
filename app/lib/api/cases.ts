@@ -109,6 +109,11 @@ export const casesApi = {
       method: 'GET',
     });
   },
+  listAlerts: () => {
+    return $api<CaseSummaryItemResponse[]>('/cases/alerts', {
+      method: 'GET',
+    });
+  },
   listByProject: (projectId: number, queryOptions?: FilterCasesOptions) => {
     return $api<PagedResponse<CaseSummaryItemResponse>>(`/projects/${projectId}/cases`, {
       method: 'GET',
