@@ -1,50 +1,48 @@
 <template>
   <SidebarProvider>
     <AppSidebar />
-    <main class="px-8 py-4 w-full">
-      <div class="flex justify-between items-center w-full">
+    <main class="px-4 lg:px-8 py-4 w-full">
+      <div class="flex justify-between container mx-auto items-center w-full">
         <SidebarTrigger class="mb-2" />
 
         <section>
           <DropdownMenu>
-            <DropdownMenuTrigger class="flex gap-2 py-1 px-2 hover:bg-accent items-center text-left">
+            <DropdownMenuTrigger
+              class="flex gap-2 py-1 px-2 hover:bg-accent items-center text-left"
+            >
               <Icon name="lucide:user-round" />
               <span class="flex flex-col">
                 <span class="text-sm font-medium">
-                  {{ session?.employee.first_name }}
-                  {{ session?.employee.last_name }}
+                  {{ session?.employee.firstName }}
+                  {{ session?.employee.lastName }}
                 </span>
-                <span class="uppercase font-light text-xs text-muted-foreground">{{
-                  session?.role.name
-                }}</span>
+                <span
+                  class="uppercase font-light text-xs text-muted-foreground"
+                  >{{ session?.role.name }}</span
+                >
               </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent class="w-56" align="start">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  Profile
-                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  Billing
-                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  Settings
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  Keyboard shortcuts
-                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                <DropdownMenuItem as-child>
+                  <NuxtLink to="/main/my/profile"> Perfil </NuxtLink>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem @click="logout()">
+                  <Icon name="lucide:log-out" />
+                  Cerrar sesión
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </section>
       </div>
-      <NuxtPage />
+      <div class="container mx-auto pt-1">
+        <NuxtPage />
+      </div>
     </main>
   </SidebarProvider>
 </template>
@@ -63,5 +61,6 @@
 
   const sessionStore = useSessionStore();
   const { session } = storeToRefs(sessionStore);
+  const { logout } = sessionStore;
 </script>
 <style scoped></style>

@@ -16,8 +16,11 @@
               <Input id="username" type="text" v-model="credentials.username" />
             </div>
             <div class="flex flex-col space-y-1.5">
-              <div class="flex items-center">
+              <div class="flex items-center justify-between">
                 <Label for="password">Contraseña</Label>
+                <NuxtLink to="/forgot-password" class="text-xs text-muted-foreground hover:underline">
+                  ¿Olvidaste tu contraseña?
+                </NuxtLink>
               </div>
               <Input
                 id="password"
