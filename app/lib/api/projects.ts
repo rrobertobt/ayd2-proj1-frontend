@@ -39,6 +39,12 @@ export const projectsApi = {
       query: queryOptions,
     });
   },
+  listMy: () => {
+    return $api<Array<ProjectItemResponse>>("/projects/my", {
+      method: "GET",
+      // query: queryOptions,
+    });
+  },
   create: (projectData: CreateProjectRequest) => {
     return $api<ProjectItemResponse>("/projects", {
       method: "POST",

@@ -28,7 +28,7 @@
             </CardHeader>
             <CardContent class="text-sm">
               <div class="space-y-2">
-                <p>
+                <span>
                   <span class="font-medium pr-1">Estado:</span>
                   <Badge
                     :class="{
@@ -37,11 +37,11 @@
                     }"
                     >{{ item.status }}</Badge
                   >
-                </p>
+                </span>
                 <p>
                   <span class="font-medium pr-1">Registrado el:</span>
                   <span class="text-muted-foreground">
-                    {{ new Date(item.createdAt).toLocaleDateString() }}
+                    {{ new Date(item.createdAt).toLocaleDateString("es-GT") }}
                   </span>
                 </p>
                 <p>
@@ -59,19 +59,41 @@
                 </p>
               </div>
             </CardContent>
-            <CardFooter>
-              <Button icon="lucide:arrow-right" variant="outline" size="sm">
-                Ver detalles
+            <CardFooter class="flex flex-col items-start gap-3">
+              <Button variant="outline" size="sm" as-child>
+                <NuxtLink :to="`/main/projects/${item.id}`">
+                  <Icon name="lucide:arrow-right" />
+                  Ver detalles
+                </NuxtLink>
               </Button>
-              <Button icon="lucide:pencil" variant="outline" size="sm" @click="openEditDialog(item)">
-                Editar
-              </Button>
-              <Button icon="lucide:user-check" variant="outline" size="sm" @click="openAssignAdminDialog(item)">
-                Asignar admin
-              </Button>
-              <Button icon="lucide:power-off" variant="outline" size="sm" @click="toggleProjectStatus(item.id)">
-                {{ item.status === "ACTIVE" ? "Desactivar" : "Activar" }}
-              </Button>
+              <div>
+              <p class="text-muted-foreground text-xs uppercase tracking-widest pb-1.5">
+                Otras acciones:
+              </p>
+                <Button
+                  icon="lucide:pencil"
+                  variant="outline"
+                  size="sm"
+                  @click="openEditDialog(item)"
+                >
+                </Button>
+                <Button
+                  icon="lucide:user-check"
+                  variant="outline"
+                  size="sm"
+                  @click="openAssignAdminDialog(item)"
+                >
+                  Asignar admin
+                </Button>
+                <Button
+                  icon="lucide:power-off"
+                  variant="outline"
+                  size="sm"
+                  @click="toggleProjectStatus(item.id)"
+                >
+                  {{ item.status === "ACTIVE" ? "Desactivar" : "Activar" }}
+                </Button>
+              </div>
             </CardFooter>
           </Card>
         </template>
@@ -122,11 +144,12 @@
     { watch: [() => route.query] },
   );
 
-  const { mutate: toggleProjectStatus } = projectsMutations.useToggleProjectStatus({
-    onComplete: () => {
-      refresh();
-    },
-  });
+  const { mutate: toggleProjectStatus } =
+    projectsMutations.useToggleProjectStatus({
+      onComplete: () => {
+        refresh();
+      },
+    });
 
   const dialogOpen = ref(false);
   const selectedProject = ref<ProjectItemResponse | undefined>(undefined);
