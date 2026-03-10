@@ -21,8 +21,13 @@
     <template v-else-if="caseData">
       <!-- Case header -->
       <div class="mb-6">
-        <div class="flex items-start justify-between gap-2 flex-wrap">
-          <div>
+        <div class="flex  items-start justify-between gap-2 flex-wrap">
+          <div class="w-full">
+            <div class="text-sm pb-2">
+              Proyecto: 
+              <span class="font-medium  text-foreground">{{ caseData.projectName }}</span>
+            </div>
+            <Separator class="mb-2" />
             <div class="flex items-center gap-2 flex-wrap">
               <h1 class="text-2xl font-bold uppercase">{{ caseData.title }}</h1>
               <Badge v-if="caseData.overdue" class="bg-red-100 text-red-700"
@@ -374,6 +379,7 @@
   import WorklogsPanel from "~/components/cases/WorklogsPanel.vue";
   import { casesApi } from "~/lib/api/cases";
   import type { CaseStepItemResponse } from "~/lib/api/cases";
+import Separator from "~/components/ui/separator/Separator.vue";
 
   const route = useRoute();
   const projectId = computed(() => Number(route.params.projectId));

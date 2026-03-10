@@ -82,9 +82,9 @@
           icon: "lucide:tag",
         },
         {
-          title: "Ajustes",
-          url: "#",
-          icon: "lucide:settings",
+          title: "Reportes",
+          url: "/main/reports",
+          icon: "lucide:chart-line",
         },
       ];
     } else if (roleChecker.value.isProjectAdmin) {

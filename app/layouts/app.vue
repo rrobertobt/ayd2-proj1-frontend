@@ -2,7 +2,7 @@
   <SidebarProvider>
     <AppSidebar />
     <main class="px-4 lg:px-8 py-4 w-full">
-      <div class="flex justify-between items-center w-full">
+      <div class="flex justify-between container mx-auto items-center w-full">
         <SidebarTrigger class="mb-2" />
 
         <section>
