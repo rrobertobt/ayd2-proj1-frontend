@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col sm:flex-row justify-between items-center pb-2.5">
-      <div class="mb-2 sm:mb-0">
+      <div class="mb-2 sm:mb-0" v-if="!props.noPagination">
         <span class="text-sm text-muted-foreground">
           Página
           <span class="text-foreground font-bold">
@@ -18,7 +18,10 @@
           }}</span>
         </span>
       </div>
-      <div class="flex gap-2 py-2 justify-center sm:justify-end">
+      <div
+        class="flex gap-2 py-2 justify-center sm:justify-end"
+        v-if="!props.noPagination"
+      >
         <Button
           class=""
           @click="setPageIndex(0)"
@@ -69,23 +72,29 @@
 <script setup lang="ts" generic="T">
   import { Button } from "~/components/ui/button";
 
-  const props = withDefaults(
-    defineProps<{
-      items: T[];
-      totalElements: number;
-      totalPages: number;
-      paginationState?: {
-        pageIndex: number;
-        pageSize: number;
+  type Props<T> =
+    | {
+        noPagination: true;
+        items: T[];
+        totalElements?: number;
+        totalPages?: number;
+        paginationState?: {
+          pageIndex: number;
+          pageSize: number;
+        };
+      }
+    | {
+        noPagination?: false;
+        items: T[];
+        totalElements: number;
+        totalPages: number;
+        paginationState: {
+          pageIndex: number;
+          pageSize: number;
+        };
       };
-    }>(),
-    {
-      paginationState: () => ({
-        pageIndex: 0,
-        pageSize: 10,
-      }),
-    },
-  );
+
+  const props = defineProps<Props<T>>();
 
   const emit = defineEmits<{
     (
@@ -94,15 +103,24 @@
     ): void;
   }>();
 
+  const paginationState = computed(() => {
+    return (
+      props.paginationState ?? {
+        pageIndex: 0,
+        pageSize: 10,
+      }
+    );
+  });
+
   const setPageIndex = (index: number) => {
-    emit("paginationChange", { ...props.paginationState, pageIndex: index });
+    emit("paginationChange", { ...paginationState.value, pageIndex: index });
   };
   const setPageSize = (size: number) => {
-    emit("paginationChange", { ...props.paginationState, pageSize: size });
+    emit("paginationChange", { ...paginationState.value, pageSize: size });
   };
-  const getPageIndex = computed(() => props.paginationState?.pageIndex ?? 0);
-  const getPageSize = computed(() => props.paginationState?.pageSize ?? 10);
-  const getPageCount = computed(() => props.totalPages);
+  const getPageIndex = computed(() => paginationState.value?.pageIndex ?? 0);
+  const getPageSize = computed(() => paginationState.value?.pageSize ?? 10);
+  const getPageCount = computed(() => props.totalPages ?? 1);
   const getCanPreviousPage = computed(() => getPageIndex.value > 0);
   const getCanNextPage = computed(
     () => getPageIndex.value < getPageCount.value - 1,
