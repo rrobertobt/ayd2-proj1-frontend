@@ -17,7 +17,7 @@ export interface Employee {
   updatedAt: Date;
   firstName: string;
   lastName: string;
-  hourly_rate: number;
+  hourlyRate: number;
 }
 
 export type RoleCode = "SYSTEM_ADMIN" | "PROJECT_ADMIN" | "DEVELOPER";
